@@ -3,18 +3,20 @@
 
 void PrepareData(vector<pair<string, float>> &codeTableData, vector<string> &encodeData)
 {
-	codeTableData.push_back(make_pair("a", 0.1));
-	codeTableData.push_back(make_pair("e", 0.2));
-	codeTableData.push_back(make_pair("h", 0.2));
-	codeTableData.push_back(make_pair("l", 0.3));
-	codeTableData.push_back(make_pair("o", 0.1));
-	codeTableData.push_back(make_pair("!", 0.1));
+	codeTableData.push_back(make_pair("A", 0.45));
+	codeTableData.push_back(make_pair("B", 0.15));
+	codeTableData.push_back(make_pair("C", 0.35));
+	codeTableData.push_back(make_pair("!", 0.05));
 
-	encodeData.push_back("h");
-	encodeData.push_back("e");
-	encodeData.push_back("l");
-	encodeData.push_back("l");
-	encodeData.push_back("o");
+	encodeData.push_back("A");
+	encodeData.push_back("A");
+	encodeData.push_back("C");
+	encodeData.push_back("A");
+	encodeData.push_back("B");
+	encodeData.push_back("A");
+	encodeData.push_back("A");
+	encodeData.push_back("C");
+	encodeData.push_back("A");
 	encodeData.push_back("!");
 }
 
