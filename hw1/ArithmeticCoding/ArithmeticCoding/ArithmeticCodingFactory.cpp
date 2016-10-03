@@ -1,4 +1,5 @@
 ﻿#include "ArithmeticCodingFactory.h"
+#include <iostream>
 #include <stdexcept>
 
 ArithmeticCodingFactory::ArithmeticCodingFactory()
@@ -38,6 +39,8 @@ float ArithmeticCodingFactory::Encode(vector<string> alphabets)
 		map<string, pair<float, float>>::iterator it = _cumulativeTable.find(alphabets[0]);
 		float st = it->second.first;
 		float ed = it->second.second;
+		cout << alphabets[0] << " ====> ";
+		printf("lower= %f upper= %f range= %f log2= %f\n", st, ed, ed - st, log2(1.0 / (ed - st)));
 		for (int i = 1; i < alphabets.size(); i++)
 		{
 			float range = ed - st;
@@ -45,6 +48,8 @@ float ArithmeticCodingFactory::Encode(vector<string> alphabets)
 			float newEd = st + range*_cumulativeTable[alphabets[i]].second;
 			st = newSt;
 			ed = newEd;
+			cout << alphabets[i]<<" ====> ";
+			printf("lower= %f upper= %f range= %f log2= %f\n", st, ed, ed - st, log2(1.0/(ed - st)));
 		}
 		return (st + ed) / 2.0;
 	}
