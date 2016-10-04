@@ -11,6 +11,7 @@ ImageCompresser::~ImageCompresser()
 Mat ImageCompresser::Compress(string fileName, vector<Mat>& codeTable)
 {
 	Mat img = imread(fileName, 0);
+	float sum = 0;
 	for (int i = 0; i < img.rows; i += HEIGHT_DIMENSION)
 	{
 		for (int j = 0; j < img.cols; j += WIDTH_DIMENSION)
@@ -28,7 +29,9 @@ Mat ImageCompresser::Compress(string fileName, vector<Mat>& codeTable)
 				}
 			}
 			codeTable[region].copyTo(block);
+			sum += minMSE;
 		}
 	}
+	printf("PSNR = %f\n", 10 * log10(255 * 255 / (sum / img.rows / img.cols)));
 	return img;
 }
