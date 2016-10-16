@@ -23,11 +23,13 @@ private:
 	int _bitsToGo;
 	int _frequency[TOTAL_SYMBOLS_QUANTITY + 1]; // 由於在程式內部符號編碼為 1-257，為求符號與其頻率直接對應故陣列多開一格，為 258
 	int _cumulativeFrequency[TOTAL_SYMBOLS_QUANTITY + 1];
+
+	void InitializeModel();
+	void UpdateModel(int symbol);
 	void WriteOutputBits(string &result, int bit);
 	void FlushBits(string &result);
 	void EncodeSymbol(int symbol, string &result);
 	int DecodeSymbol(string &encodedText, int &currentBitIndex);
-	void UpdateModel();
 
 public:
 	ArithmeticCodingFactory();
