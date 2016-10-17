@@ -1,4 +1,4 @@
-#include "ArithmeticCodingFactory.h"
+ï»¿#include "ArithmeticCodingFactory.h"
 
 ArithmeticCodingFactory::ArithmeticCodingFactory()
 {
@@ -51,10 +51,21 @@ void ArithmeticCodingFactory::WriteOutputBits(string &result, int bit)
 
 void ArithmeticCodingFactory::FlushBits(string &result)
 {
-	// ¦]¬° EncodeSymbol ªº²×¤î±ø¥ó¥i¯à¸¨¦b
-	// low < FIRST_QTR < HALF < high < THIRD_QTR ©ÎªÌ
-	// FIRST_QTR < low < HALF < THIRD_QTR < high ©ÎªÌ
+	// è«–æ–‡ä¸Šæåˆ°ï¼Œå£“å®Œ STOP å‡ºåŽ»å¾Œï¼Œç‚ºäº†é™åˆ¶ low, high çš„ç¯„åœè½åœ¨
+	// low < FIRST_QTR < HALF <= high or
+	// low < HALF < THIRD_QTR <= high
+	// 
+	// ä½†åœ¨ Encodeçš„ for (;;) çš„ break æ¢ä»¶ï¼Œ low, high å¯èƒ½çš„å€¼å¦‚ä¸‹
+	// low < FIRST_QTR < HALF < high < THIRD_QTR æˆ–è€…
+	// FIRST_QTR < low < HALF < THIRD_QTR < high æˆ–è€…
 	// low < FIRST_QTR < THIRD_QTR < high
+	// 
+	// ä¼°è¨ˆæ­¤æ®µç¨‹å¼ç¢¼æ˜¯ç‚ºäº†é˜»æ­¢ low < FIRST_QTR < THIRD_QTR < high çš„æƒ…æ³
+	// ä¸ç„¶è¿´åœˆè·³å‡ºçš„æ™‚å€™æ•¸å€¼å°±å·²ç¶“ç¬¦åˆäº†ï¼Œå¹¹å˜›åˆè¦å†å¤šåšé€™ä¸€æ­¥
+	// ä½†æ˜¯æ­¤æ®µç¨‹å¼ç¢¼æ˜¯å¦‚ä½•è®“ low < FIRST_QTR < THIRD_QTR < high èƒ½å¤ è¢«é™åˆ¶æˆ
+	// low < FIRST_QTR < HALF <= high or
+	// low < HALF < THIRD_QTR <= high
+	// çš„åŽŸå› å°šæœªçŸ¥
 	_bitsToFollow++;
 	if (_low < FIRST_QTR)
 	{
@@ -65,9 +76,9 @@ void ArithmeticCodingFactory::FlushBits(string &result)
 		WriteOutputBits(result, 1);
 	}
 
-	// ¨¾¤î­Y±ý encode ¦r¦ê¬°ªÅ¡A«h¿é¥X¤£¨¬ 16 bit ´£¨Ñµ¹ decode ¸Ñ
-	// ¦]¬° STOP ¦Ü¤Ö·|¦³ 8 bit ¥H¤W¡A¤£¨¬ 16 bit¡A¬G¥u»Ý­n¸É¨¬ 8 ­Ó bit ´N¦n
-	// ©Î³\¦³¥i¯à¬Y¨Ç³æ¤@¦r¦ê¦b Encode ®É¤Ñ¥Í´N·|¤£¨¬ 16 bit¡AªÅ¦r¦ê¦b³oÃä¥u¬OÁ|¨Ò
+	// é˜²æ­¢è‹¥æ¬² encode å­—ä¸²ç‚ºç©ºï¼Œå‰‡è¼¸å‡ºä¸è¶³ 16 bit æä¾›çµ¦ decode è§£
+	// å› ç‚º STOP è‡³å°‘æœƒæœ‰ 8 bit ä»¥ä¸Šï¼Œä¸è¶³ 16 bitï¼Œæ•…åªéœ€è¦è£œè¶³ 8 å€‹ bit å°±å¥½
+	// æˆ–è¨±æœ‰å¯èƒ½æŸäº›å–®ä¸€å­—ä¸²åœ¨ Encode æ™‚å¤©ç”Ÿå°±æœƒä¸è¶³ 16 bitï¼Œç©ºå­—ä¸²åœ¨é€™é‚Šåªæ˜¯èˆ‰ä¾‹
 	int zeroBitQuantity = 8 - abs(_bitsToGo % 8);
 	for (int i = 0; i < zeroBitQuantity; i++)
 	{
@@ -97,12 +108,13 @@ void ArithmeticCodingFactory::EncodeSymbol(int symbol, string &result)
 			_bitsToFollow++;
 			_low -= FIRST_QTR;
 			_high -= FIRST_QTR;
+			// ç‚ºä½•æš«å­˜çš„ bit æœ€å¾Œå»æ¯”ä¸‹æ¬¡çš„æ™šè¼¸å‡ºå•é¡Œå°šæœªç†è§£
 		}
 		else
 		{
-			// ²×¤î±ø¥ó¬°
-			// low < FIRST_QTR < HALF < high < THIRD_QTR ©ÎªÌ
-			// FIRST_QTR < low < HALF < THIRD_QTR < high ©ÎªÌ
+			// çµ‚æ­¢æ¢ä»¶ç‚º
+			// low < FIRST_QTR < HALF < high < THIRD_QTR æˆ–è€…
+			// FIRST_QTR < low < HALF < THIRD_QTR < high æˆ–è€…
 			// low < FIRST_QTR < THIRD_QTR < high
 			break;
 		}
@@ -144,7 +156,7 @@ int ArithmeticCodingFactory::DecodeSymbol(string &encodedText, int &currentBitIn
 		_low = _low * 2;
 		_high = _high * 2 + 1;
 
-		//¨C¦¸§ì·sªº bit ¶i¨Ó decode¡A¦pªG¨S±o§ì´Nª½±µ±N·s bit µø¬° 0
+		//æ¯æ¬¡æŠ“æ–°çš„ bit é€²ä¾† decodeï¼Œå¦‚æžœæ²’å¾—æŠ“å°±ç›´æŽ¥å°‡æ–° bit è¦–ç‚º 0
 		if (currentBitIndex < 0)
 		{
 			_value = 2 * _value + 0;
