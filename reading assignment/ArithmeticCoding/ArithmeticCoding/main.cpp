@@ -5,7 +5,7 @@
 int main()
 {
 	ArithmeticCodingFactory factory;
-	string encodeString = "WER";
+	string encodeString = "ABC";
 
 	string encodedResult = factory.Encode(encodeString);
 	cout << "Encode: " << encodeString << " ==> " << encodedResult << endl << "total bits= " << encodedResult.size() << endl << endl;

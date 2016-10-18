@@ -30,6 +30,9 @@ void ArithmeticCodingFactory::UpdateModel(int symbol)
 			cum += _frequency[i];
 		}
 	}
+	// 筆者忽略了論文上在這部分做的交換，筆者推斷原論文在這邊做的交換是為了使得字頻較大的往第 0 格靠近
+	// 這樣一來可以在 Decode 的 for 就可以快速的找到原先的字元為何
+	// 但筆者在這邊偷懶 反正字元也只有 1-257 共 257 個字元，迴圈一次也只是瞬間，故就不實作這區塊
 	_frequency[symbol]++;
 	for (int i = symbol - 1; i >= 0; i--)
 	{
