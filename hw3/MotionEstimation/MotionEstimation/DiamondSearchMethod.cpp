@@ -11,7 +11,7 @@ DiamondSearchMethod::~DiamondSearchMethod()
 
 void DiamondSearchMethod::FindByDiamondLayer(Mat &reference, Mat &targetBlock, int diamondLayer[][2], int diamondLayerQuantity, Point &startPoint)
 {
-	map<pair<int,int>, bool> shownedBlockList;
+	map<pair<int, int>, bool> shownedBlockList;
 
 	float middleScore;
 	float currentMinScore = numeric_limits<float>::max();
@@ -19,7 +19,7 @@ void DiamondSearchMethod::FindByDiamondLayer(Mat &reference, Mat &targetBlock, i
 	{
 		Mat middleBlock(reference, Rect(startPoint.x, startPoint.y, BLOCK_WIDTH, BLOCK_HEIGHT));
 		middleScore = MadCalculation(middleBlock, targetBlock);
-		shownedBlockList[make_pair(startPoint.x,startPoint.y)] = true;
+		shownedBlockList[make_pair(startPoint.x, startPoint.y)] = true;
 
 		int index = -1;
 		for (int i = 0; i < diamondLayerQuantity; i++)
@@ -52,7 +52,7 @@ Mat DiamondSearchMethod::FindMostSimilarBlock(Mat &reference, Mat &targetBlock, 
 	int diamondLayer1[8][2] = { { -2, 0 }, { -1, -1 }, { 0, -2 }, { 1, -1 }, { 2, 0 }, { 1, 1 }, { 2, 0 }, { -1, 1 } };
 	int diamondLayer2[4][2] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
 
-	Point startPoint(x,y);
+	Point startPoint(x, y);
 	FindByDiamondLayer(reference, targetBlock, diamondLayer1, 8, startPoint);
 	FindByDiamondLayer(reference, targetBlock, diamondLayer2, 4, startPoint);
 	Mat result(reference, Rect(startPoint.x, startPoint.y, BLOCK_WIDTH, BLOCK_HEIGHT));

@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <time.h>
 #include "MotionEstimator.h"
+#include "DifferenceCalculator.h"
 
 Mat ReadFile(string fileName)
 {
@@ -15,19 +17,31 @@ Mat ReadFile(string fileName)
 	return result;
 }
 
+void Run(Mat reference, Mat target, EstimateType type)
+{
+	DifferenceCalculator differentCalculator;
+	MontionEstimator estimator;
+
+	float st = clock();
+	Mat result = estimator.Estimate(reference, target, type);
+	float ed = clock();
+	differentCalculator.CalculatePSNR(result, target);
+	Mat differenceImage=differentCalculator.GetDifferenceImage(result, target);
+
+	imshow("motion estimation result.bmp", result);
+	imshow("origin.bmp", target);
+	imshow("difference.bmp", differenceImage);
+	printf("cost=%fs\n", (ed - st)/CLOCKS_PER_SEC);
+	waitKey();
+}
+
 int main()
 {
+	EstimateType type = EstimateType::DiamondSearch;
 	Mat m0 = ReadFile("Images\\mobile0.Y");
 	Mat m1 = ReadFile("Images\\mobile1.Y");
 	Mat m2 = ReadFile("Images\\mobile2.Y");
-
-	MontionEstimator estimator;
-	Mat result1 = estimator.Estimate(m0, m1, EstimateType::FullSearch);
-	//Mat result2 = estimator.Estimate(m0, m2);
-	imshow("result1.bmp", result1);
-	imshow("origin1.bmp", m1);
-	//imshow("result2.bmp", result2);
-	//imshow("origin2.bmp", m2);
-	waitKey();
+	Run(m0, m1, type);
+	//Run(m0, m2, type);
 	return 0;
 }
