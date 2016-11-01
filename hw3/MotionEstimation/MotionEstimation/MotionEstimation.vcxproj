@@ -79,10 +79,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DiamondSearchMethod.cpp" />
+    <ClCompile Include="FullSearchMethod.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MotionEstimator.cpp" />
+    <ClCompile Include="SearchMethod.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DiamondSearchMethod.h" />
+    <ClInclude Include="FullSearchMethod.h" />
+    <ClInclude Include="MotionEstimator.h" />
+    <ClInclude Include="Parameters.h" />
+    <ClInclude Include="SearchMethod.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

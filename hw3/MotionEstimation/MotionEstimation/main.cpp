@@ -1,11 +1,5 @@
 #include <stdio.h>
-#include <opencv2\opencv.hpp>
-#include <opencv2\core\core.hpp>
-#include <opencv2\highgui\highgui.hpp>
-#include <opencv2\imgproc\imgproc.hpp>
-
-using namespace std;
-using namespace cv;
+#include "MotionEstimator.h"
 
 Mat ReadFile(string fileName)
 {
@@ -26,9 +20,14 @@ int main()
 	Mat m0 = ReadFile("Images\\mobile0.Y");
 	Mat m1 = ReadFile("Images\\mobile1.Y");
 	Mat m2 = ReadFile("Images\\mobile2.Y");
-	imshow("m0.bmp", m0);
-	imshow("m1.bmp", m1);
-	imshow("m2.bmp", m2);
+
+	MontionEstimator estimator;
+	Mat result1 = estimator.Estimate(m0, m1, EstimateType::FullSearch);
+	//Mat result2 = estimator.Estimate(m0, m2);
+	imshow("result1.bmp", result1);
+	imshow("origin1.bmp", m1);
+	//imshow("result2.bmp", result2);
+	//imshow("origin2.bmp", m2);
 	waitKey();
 	return 0;
 }
